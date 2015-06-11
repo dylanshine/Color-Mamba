@@ -193,6 +193,38 @@ static inline CGFloat RandomRange(CGFloat min, CGFloat max) {
     return NO;
 }
 
+-(void)checkIfLost {
+    if (_lives == 0 || [self boundsCheck] || [self checkBodyCollisions]) {
+        [self removeAllChildren];
+        [self removeActionForKey:@"spawnFood"];
+        self.backgroundColor = [UIColor redColor];
+        SKLabelNode *label = [SKLabelNode labelNodeWithText:@"Game Over"];
+        NSString *scoreString = [NSString stringWithFormat:@"Your score was %lu",(unsigned long)_bodyNodes.count];
+        SKLabelNode *score = [SKLabelNode labelNodeWithText:scoreString];
+        label.fontColor = [UIColor whiteColor];
+        label.fontSize = 50;
+        label.position = CGPointMake(self.size.width/2, self.size.height/2);
+        score.fontColor = [UIColor whiteColor];
+        score.fontSize = 30;
+        score.position = CGPointMake(self.size.width/2, self.size.height/2 - 40);
+        [self addChild:label];
+        [self addChild:score];
+        
+        SKAction *wait = [SKAction waitForDuration:3.0];
+        SKAction *block = [SKAction runBlock:^{
+            GameScene * myScene =
+            [[GameScene alloc] initWithSize:self.size];
+            
+            SKTransition *reveal =
+            [SKTransition flipHorizontalWithDuration:0.5];
+            
+            [self.view presentScene:myScene transition: reveal];
+        }];
+        [self runAction:[SKAction sequence:@[wait, block]]];
+    }
+}
+
+
 
 @end
 
