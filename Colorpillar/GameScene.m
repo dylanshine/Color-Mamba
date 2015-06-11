@@ -49,6 +49,7 @@ static inline CGFloat RandomRange(CGFloat min, CGFloat max) {
 
 -(void)update:(NSTimeInterval)currentTime {
     [self moveColorpillar];
+    [self followColorpillar];
 }
 
 -(void)didEvaluateActions {
