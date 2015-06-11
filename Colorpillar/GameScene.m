@@ -161,6 +161,18 @@ static inline CGFloat RandomRange(CGFloat min, CGFloat max) {
     }];
 }
 
+-(void)followColorpillar {
+    for (NSUInteger i = 0; i < _bodyNodes.count; i++) {
+        SKAction *action;
+        if (i == 0) {
+            action = [SKAction moveTo:_colorpillar.position duration:0.1];
+        } else {
+            action = [SKAction moveTo:[_bodyNodes[i - 1] position] duration:0.1];
+        }
+        [_bodyNodes[i] runAction:action];
+    }
+}
+
 
 @end
 
