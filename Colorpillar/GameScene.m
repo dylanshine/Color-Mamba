@@ -34,7 +34,7 @@ static inline CGFloat RandomRange(CGFloat min, CGFloat max) {
         _lives = 3;
         _bodyNodes = [[NSMutableArray alloc]init];
         _currentDirection = @"up";
-        _colorpillar = [SKSpriteNode spriteNodeWithColor:[UIColor blackColor] size:CGSizeMake(20, 20)];
+        _colorpillar = [SKSpriteNode spriteNodeWithColor:[self makeRandomColor] size:CGSizeMake(20, 20)];
         _colorpillar.position = CGPointMake(self.size.width/2, self.size.height/2);
         _colorpillar.zPosition = 100;
          self.backgroundColor = [SKColor whiteColor];
@@ -84,7 +84,7 @@ static inline CGFloat RandomRange(CGFloat min, CGFloat max) {
 }
 
 -(void)spawnFood {
-    SKSpriteNode *food = [SKSpriteNode spriteNodeWithColor:[UIColor greenColor] size:CGSizeMake(20, 20)];
+    SKSpriteNode *food = [SKSpriteNode spriteNodeWithColor:[self makeRandomColor] size:CGSizeMake(20, 20)];
     food.position = CGPointMake(RandomRange(0, self.size.width),RandomRange(0, self.size.height));
     CGRect largerFrame = CGRectInset(food.frame, -40, -40);
     if (CGRectIntersectsRect(_colorpillar.frame, largerFrame)) {
