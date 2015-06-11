@@ -8,6 +8,7 @@
 
 #import "GameScene.h"
 
+
 @implementation GameScene{
     SKSpriteNode *_colorpillar;
     NSString *_currentDirection;
@@ -38,6 +39,43 @@
     }
     return self;
 }
+
+-(void)update:(NSTimeInterval)currentTime {
+    [self moveColorpillar];
+}
+
+
+-(void)moveColorpillar {
+    [_colorpillar runAction:_directions[_currentDirection]];
+}
+
+-(void)turnColorpillarToward:(CGPoint)location {
+    
+    if ([_currentDirection isEqualToString:@"up"] || [_currentDirection isEqualToString:@"down"]) {
+        if (_colorpillar.position.x > location.x) {
+            _currentDirection = @"left";
+        } else {
+            _currentDirection = @"right";
+        }
+        return;
+    }
+    
+    if ([_currentDirection isEqualToString:@"left"] || [_currentDirection isEqualToString:@"right"]) {
+        if (_colorpillar.position.y > location.y) {
+            _currentDirection = @"down";
+        } else {
+            _currentDirection = @"up";
+        }
+        return;
+    }
+}
+
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    UITouch *touch = [touches anyObject];
+    CGPoint touchLocation = [touch locationInNode:self];
+    [self turnColorpillarToward:touchLocation];
+}
+
 
 
 @end
