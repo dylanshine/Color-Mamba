@@ -51,6 +51,10 @@ static inline CGFloat RandomRange(CGFloat min, CGFloat max) {
     [self moveColorpillar];
 }
 
+-(void)didEvaluateActions {
+    [self checkFoodCollisions];
+}
+
 
 -(void)moveColorpillar {
     [_colorpillar runAction:_directions[_currentDirection]];
