@@ -34,11 +34,19 @@ static inline CGFloat RandomRange(CGFloat min, CGFloat max) {
         _lives = 3;
         _bodyNodes = [[NSMutableArray alloc]init];
         _currentDirection = @"up";
-        _colorpillar = [SKSpriteNode spriteNodeWithColor:[self makeRandomColor] size:CGSizeMake(20, 20)];
+        _currentColor = [self makeRandomColor];
+        _colorpillar = [SKSpriteNode spriteNodeWithColor:_currentColor size:CGSizeMake(20, 20)];
         _colorpillar.position = CGPointMake(self.size.width/2, self.size.height/2);
         _colorpillar.zPosition = 100;
          self.backgroundColor = [SKColor whiteColor];
         [self addChild:_colorpillar];
+        
+        _scoreBoard = [[SKLabelNode alloc]init];
+        _scoreBoard.position = CGPointMake(self.size.width/2, self.size.height - 40);
+        _scoreBoard.fontColor = [UIColor blackColor];
+        _scoreBoard.fontSize = 20;
+        _scoreBoard.zPosition = 100;
+        [self addChild:_scoreBoard];
         
         [self runAction:[SKAction repeatActionForever:
                          [SKAction sequence:@[[SKAction performSelector:@selector(spawnFood) onTarget:self], [SKAction waitForDuration:1.0]]]] withKey:@"spawnFood"];
@@ -54,6 +62,7 @@ static inline CGFloat RandomRange(CGFloat min, CGFloat max) {
 
 -(void)didEvaluateActions {
     [self checkFoodCollisions];
+    [self scoreUpdate];
 }
 
 
@@ -224,6 +233,10 @@ static inline CGFloat RandomRange(CGFloat min, CGFloat max) {
     }
 }
 
+-(void)scoreUpdate {
+    NSString *livesString = [NSString stringWithFormat:@"Score: %lu Lives: %lu", (unsigned long)_bodyNodes.count, (unsigned long)_lives];
+    _scoreBoard.text = livesString;
+}
 
 
 @end
