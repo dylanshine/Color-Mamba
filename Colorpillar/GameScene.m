@@ -174,6 +174,15 @@ static inline CGFloat RandomRange(CGFloat min, CGFloat max) {
     }
 }
 
+-(BOOL)checkBodyCollisions {
+    for (NSUInteger i = 2; i < _bodyNodes.count; i++) {
+        if (CGRectIntersectsRect([_bodyNodes[i] frame], _colorpillar.frame) && (i != _bodyNodes.count - 1)) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 
 @end
 
