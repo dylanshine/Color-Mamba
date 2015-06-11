@@ -183,6 +183,16 @@ static inline CGFloat RandomRange(CGFloat min, CGFloat max) {
     return NO;
 }
 
+-(BOOL)boundsCheck {
+    CGPoint bottomLeft = CGPointZero;
+    CGPoint topRight = CGPointMake(self.size.width,self.size.height);
+    
+    if (_colorpillar.position.x <= bottomLeft.x || _colorpillar.position.x >= topRight.x || _colorpillar.position.y <= bottomLeft.y || _colorpillar.position.y >= topRight.y) {
+        return YES;
+    }
+    return NO;
+}
+
 
 @end
 
