@@ -426,6 +426,7 @@
 				FCF0548F1B29DF4F0087CA5D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FCF054901B29DF4F0087CA5D /* Build configuration list for PBXNativeTarget "ColorpillarTests" */ = {
 			isa = XCConfigurationList;
@@ -434,6 +435,7 @@
 				FCF054921B29DF4F0087CA5D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
