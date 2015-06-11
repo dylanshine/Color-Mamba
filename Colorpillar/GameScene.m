@@ -111,6 +111,53 @@ static inline CGFloat RandomRange(CGFloat min, CGFloat max) {
     _colorpillar.color = _currentColor;
 }
 
+-(void)checkFoodCollisions {
+    [self enumerateChildNodesWithName:@"food" usingBlock:^(SKNode *node, BOOL *stop){
+        SKSpriteNode *food = (SKSpriteNode *)node;
+        if (CGRectIntersectsRect(food.frame, _colorpillar.frame) && ([_currentColor isEqual:food.color])) {
+            [food removeFromParent];
+            SKSpriteNode *body = [SKSpriteNode spriteNodeWithColor:_currentColor size:CGSizeMake(20,20)];
+            body.zPosition = 100;
+            [self setGameColor];
+            
+            CGPoint lastPoint;
+            if (_bodyNodes.count == 0) {
+                lastPoint = _colorpillar.position;
+            } else {
+                lastPoint = [[_bodyNodes lastObject] position];
+            }
+            
+            if ([_currentDirection isEqualToString:@"up"]) {
+                lastPoint.y -= _colorpillar.size.height;
+                body.position = lastPoint;
+            }
+            
+            if ([_currentDirection isEqualToString:@"down"]) {
+                lastPoint.y += _colorpillar.size.height;
+                body.position = lastPoint;
+            }
+            
+            if ([_currentDirection isEqualToString:@"left"]) {
+                lastPoint.x -= _colorpillar.size.height;
+                body.position = lastPoint;
+            }
+            
+            if ([_currentDirection isEqualToString:@"right"]) {
+                lastPoint.x += _colorpillar.size.height;
+                body.position = lastPoint;
+            }
+            
+            [_bodyNodes addObject:body];
+            [self addChild:body];
+        } else if (CGRectIntersectsRect(food.frame, _colorpillar.frame) && (![_currentColor isEqual:food.color])){
+            [food removeFromParent];
+            _lives--;
+            [self setGameColor];
+        }
+    }];
+}
+
+
 @end
 
 
