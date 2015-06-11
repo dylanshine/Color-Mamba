@@ -101,7 +101,15 @@ static inline CGFloat RandomRange(CGFloat min, CGFloat max) {
     [food runAction:[SKAction sequence:@[appear, wait, disappear,removeFromParent]]];
 }
 
+-(UIColor *)makeRandomColor {
+    NSUInteger randomIndex = arc4random() % [_colors count];
+    return _colors[randomIndex];
+}
 
+-(void)setGameColor {
+    _currentColor = [self makeRandomColor];
+    _colorpillar.color = _currentColor;
+}
 
 @end
 
