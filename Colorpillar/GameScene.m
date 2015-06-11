@@ -8,6 +8,10 @@
 
 #import "GameScene.h"
 
+#define ARC4RANDOM_MAX      0x100000000
+static inline CGFloat RandomRange(CGFloat min, CGFloat max) {
+    return floorf(((double)arc4random() / ARC4RANDOM_MAX) * (max - min) + min);
+}
 
 @implementation GameScene{
     SKSpriteNode *_colorpillar;
@@ -35,6 +39,9 @@
         _colorpillar.zPosition = 100;
          self.backgroundColor = [SKColor whiteColor];
         [self addChild:_colorpillar];
+        
+        [self runAction:[SKAction repeatActionForever:
+                         [SKAction sequence:@[[SKAction performSelector:@selector(spawnFood) onTarget:self], [SKAction waitForDuration:1.0]]]] withKey:@"spawnFood"];
         
     }
     return self;
@@ -74,6 +81,24 @@
     UITouch *touch = [touches anyObject];
     CGPoint touchLocation = [touch locationInNode:self];
     [self turnColorpillarToward:touchLocation];
+}
+
+-(void)spawnFood {
+    SKSpriteNode *food = [SKSpriteNode spriteNodeWithColor:[UIColor greenColor] size:CGSizeMake(20, 20)];
+    food.position = CGPointMake(RandomRange(0, self.size.width),RandomRange(0, self.size.height));
+    CGRect largerFrame = CGRectInset(food.frame, -40, -40);
+    if (CGRectIntersectsRect(_colorpillar.frame, largerFrame)) {
+        return;
+    }
+    food.name = @"food";
+    food.xScale = 0;
+    food.yScale = 0;
+    [self addChild:food];
+    SKAction *appear = [SKAction scaleTo:1.0 duration:0.5];
+    SKAction *disappear = [SKAction scaleTo:0.0 duration:0.5];
+    SKAction *wait = [SKAction waitForDuration:7];
+    SKAction *removeFromParent = [SKAction removeFromParent];
+    [food runAction:[SKAction sequence:@[appear, wait, disappear,removeFromParent]]];
 }
 
 
