@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FC2325FA1B47364300A004E8 /* ScoreBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = FC2325F91B47364300A004E8 /* ScoreBoard.m */; };
+		FC2325FD1B4738BD00A004E8 /* Colorpillar.m in Sources */ = {isa = PBXBuildFile; fileRef = FC2325FC1B4738BD00A004E8 /* Colorpillar.m */; };
+		FC2326001B47418300A004E8 /* FoodNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FC2325FF1B47418300A004E8 /* FoodNode.m */; };
+		FC2326031B47451100A004E8 /* BodyNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FC2326021B47451100A004E8 /* BodyNode.m */; };
+		FC23260E1B47479100A004E8 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC23260B1B47479100A004E8 /* Fabric.framework */; };
+		FC23260F1B47479100A004E8 /* MoPub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC23260C1B47479100A004E8 /* MoPub.framework */; };
+		FC2326101B47479100A004E8 /* MoPub.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FC23260D1B47479100A004E8 /* MoPub.bundle */; };
+		FC2326131B47487700A004E8 /* AdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC2326121B47487700A004E8 /* AdViewController.m */; };
+		FC2326161B47499900A004E8 /* GameOverScene.m in Sources */ = {isa = PBXBuildFile; fileRef = FC2326151B47499900A004E8 /* GameOverScene.m */; };
+		FCA2D0F41B4773FE0030A75E /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = FCA2D0F31B4773FE0030A75E /* Launch Screen.xib */; };
 		FCF0546B1B29DF4F0087CA5D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FCF0546A1B29DF4F0087CA5D /* main.m */; };
 		FCF0546E1B29DF4F0087CA5D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FCF0546D1B29DF4F0087CA5D /* AppDelegate.m */; };
 		FCF054711B29DF4F0087CA5D /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = FCF054701B29DF4F0087CA5D /* GameScene.m */; };
@@ -14,7 +24,6 @@
 		FCF054761B29DF4F0087CA5D /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FCF054751B29DF4F0087CA5D /* GameViewController.m */; };
 		FCF054791B29DF4F0087CA5D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FCF054771B29DF4F0087CA5D /* Main.storyboard */; };
 		FCF0547B1B29DF4F0087CA5D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCF0547A1B29DF4F0087CA5D /* Images.xcassets */; };
-		FCF0547E1B29DF4F0087CA5D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = FCF0547C1B29DF4F0087CA5D /* LaunchScreen.xib */; };
 		FCF0548A1B29DF4F0087CA5D /* ColorpillarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FCF054891B29DF4F0087CA5D /* ColorpillarTests.m */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +38,22 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FC2325F81B47364300A004E8 /* ScoreBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScoreBoard.h; sourceTree = "<group>"; };
+		FC2325F91B47364300A004E8 /* ScoreBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScoreBoard.m; sourceTree = "<group>"; };
+		FC2325FB1B4738BD00A004E8 /* Colorpillar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Colorpillar.h; sourceTree = "<group>"; };
+		FC2325FC1B4738BD00A004E8 /* Colorpillar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Colorpillar.m; sourceTree = "<group>"; };
+		FC2325FE1B47418300A004E8 /* FoodNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoodNode.h; sourceTree = "<group>"; };
+		FC2325FF1B47418300A004E8 /* FoodNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoodNode.m; sourceTree = "<group>"; };
+		FC2326011B47451100A004E8 /* BodyNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BodyNode.h; sourceTree = "<group>"; };
+		FC2326021B47451100A004E8 /* BodyNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BodyNode.m; sourceTree = "<group>"; };
+		FC23260B1B47479100A004E8 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		FC23260C1B47479100A004E8 /* MoPub.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MoPub.framework; sourceTree = "<group>"; };
+		FC23260D1B47479100A004E8 /* MoPub.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MoPub.bundle; sourceTree = "<group>"; };
+		FC2326111B47487700A004E8 /* AdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdViewController.h; sourceTree = "<group>"; };
+		FC2326121B47487700A004E8 /* AdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdViewController.m; sourceTree = "<group>"; };
+		FC2326141B47499900A004E8 /* GameOverScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverScene.h; sourceTree = "<group>"; };
+		FC2326151B47499900A004E8 /* GameOverScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverScene.m; sourceTree = "<group>"; };
+		FCA2D0F31B4773FE0030A75E /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		FCF054651B29DF4F0087CA5D /* Colorpillar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Colorpillar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCF054691B29DF4F0087CA5D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FCF0546A1B29DF4F0087CA5D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -41,7 +66,6 @@
 		FCF054751B29DF4F0087CA5D /* GameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
 		FCF054781B29DF4F0087CA5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FCF0547A1B29DF4F0087CA5D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		FCF0547D1B29DF4F0087CA5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		FCF054831B29DF4F0087CA5D /* ColorpillarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ColorpillarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCF054881B29DF4F0087CA5D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FCF054891B29DF4F0087CA5D /* ColorpillarTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ColorpillarTests.m; sourceTree = "<group>"; };
@@ -52,6 +76,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC23260F1B47479100A004E8 /* MoPub.framework in Frameworks */,
+				FC23260E1B47479100A004E8 /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,16 +112,31 @@
 		FCF054671B29DF4F0087CA5D /* Colorpillar */ = {
 			isa = PBXGroup;
 			children = (
+				FC23260B1B47479100A004E8 /* Fabric.framework */,
+				FC23260C1B47479100A004E8 /* MoPub.framework */,
+				FC23260D1B47479100A004E8 /* MoPub.bundle */,
 				FCF0546C1B29DF4F0087CA5D /* AppDelegate.h */,
 				FCF0546D1B29DF4F0087CA5D /* AppDelegate.m */,
+				FC2325FB1B4738BD00A004E8 /* Colorpillar.h */,
+				FC2325FC1B4738BD00A004E8 /* Colorpillar.m */,
+				FC2325F81B47364300A004E8 /* ScoreBoard.h */,
+				FC2325F91B47364300A004E8 /* ScoreBoard.m */,
+				FC2325FE1B47418300A004E8 /* FoodNode.h */,
+				FC2325FF1B47418300A004E8 /* FoodNode.m */,
+				FC2326011B47451100A004E8 /* BodyNode.h */,
+				FC2326021B47451100A004E8 /* BodyNode.m */,
 				FCF0546F1B29DF4F0087CA5D /* GameScene.h */,
 				FCF054701B29DF4F0087CA5D /* GameScene.m */,
+				FC2326141B47499900A004E8 /* GameOverScene.h */,
+				FC2326151B47499900A004E8 /* GameOverScene.m */,
 				FCF054721B29DF4F0087CA5D /* GameScene.sks */,
 				FCF054741B29DF4F0087CA5D /* GameViewController.h */,
 				FCF054751B29DF4F0087CA5D /* GameViewController.m */,
+				FC2326111B47487700A004E8 /* AdViewController.h */,
+				FC2326121B47487700A004E8 /* AdViewController.m */,
 				FCF054771B29DF4F0087CA5D /* Main.storyboard */,
+				FCA2D0F31B4773FE0030A75E /* Launch Screen.xib */,
 				FCF0547A1B29DF4F0087CA5D /* Images.xcassets */,
-				FCF0547C1B29DF4F0087CA5D /* LaunchScreen.xib */,
 				FCF054681B29DF4F0087CA5D /* Supporting Files */,
 			);
 			path = Colorpillar;
@@ -137,6 +178,7 @@
 				FCF054611B29DF4F0087CA5D /* Sources */,
 				FCF054621B29DF4F0087CA5D /* Frameworks */,
 				FCF054631B29DF4F0087CA5D /* Resources */,
+				FC23260A1B47476D00A004E8 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -207,10 +249,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FCF0547E1B29DF4F0087CA5D /* LaunchScreen.xib in Resources */,
 				FCF0547B1B29DF4F0087CA5D /* Images.xcassets in Resources */,
+				FC2326101B47479100A004E8 /* MoPub.bundle in Resources */,
 				FCF054731B29DF4F0087CA5D /* GameScene.sks in Resources */,
 				FCF054791B29DF4F0087CA5D /* Main.storyboard in Resources */,
+				FCA2D0F41B4773FE0030A75E /* Launch Screen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,13 +266,35 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		FC23260A1B47476D00A004E8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run 0c3d05dfb2302b0c5720b5da86b2b6f93390294d 955285cf79f071cf0b1983f6288ec0c5aeacfa3fe84b607b111e600f1dc864b9";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		FCF054611B29DF4F0087CA5D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC2326161B47499900A004E8 /* GameOverScene.m in Sources */,
 				FCF054761B29DF4F0087CA5D /* GameViewController.m in Sources */,
+				FC2326031B47451100A004E8 /* BodyNode.m in Sources */,
+				FC2326001B47418300A004E8 /* FoodNode.m in Sources */,
+				FC2325FD1B4738BD00A004E8 /* Colorpillar.m in Sources */,
 				FCF0546E1B29DF4F0087CA5D /* AppDelegate.m in Sources */,
+				FC2325FA1B47364300A004E8 /* ScoreBoard.m in Sources */,
+				FC2326131B47487700A004E8 /* AdViewController.m in Sources */,
 				FCF054711B29DF4F0087CA5D /* GameScene.m in Sources */,
 				FCF0546B1B29DF4F0087CA5D /* main.m in Sources */,
 			);
@@ -260,14 +325,6 @@
 				FCF054781B29DF4F0087CA5D /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		FCF0547C1B29DF4F0087CA5D /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FCF0547D1B29DF4F0087CA5D /* Base */,
-			);
-			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -356,7 +413,11 @@
 		FCF0548E1B29DF4F0087CA5D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Colorpillar",
+				);
 				INFOPLIST_FILE = Colorpillar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -366,7 +427,11 @@
 		FCF0548F1B29DF4F0087CA5D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Colorpillar",
+				);
 				INFOPLIST_FILE = Colorpillar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

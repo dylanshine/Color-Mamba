@@ -7,46 +7,55 @@
 //
 
 #import "GameScene.h"
+#import "Colorpillar.h"
+#import "FoodNode.h"
+#import "BodyNode.h"
+#import "ScoreBoard.h"
+#import "GameOverScene.h"
 
-#define ARC4RANDOM_MAX      0x100000000
-static inline CGFloat RandomRange(CGFloat min, CGFloat max) {
-    return floorf(((double)arc4random() / ARC4RANDOM_MAX) * (max - min) + min);
-}
 
-@implementation GameScene{
-    SKSpriteNode *_colorpillar;
-    NSString *_currentDirection;
-    NSDictionary *_directions;
-    NSMutableArray *_bodyNodes;
-    UIColor *_currentColor;
-    NSArray *_colors;
-    NSUInteger _lives;
-    SKLabelNode *_scoreBoard;
-}
+static const CGFloat kNodeSize = 10.0;
+static const NSUInteger kLives = 3;
+
+@interface GameScene()
+@property (nonatomic) Colorpillar *colorpillar;
+@property (nonatomic) NSUInteger lives;
+@property (nonatomic) ScoreBoard *scoreBoard;
+@property (nonatomic) UIColor *currentColor;
+@property (nonatomic) NSArray *colors;
+@property (nonatomic) NSMutableArray *bodyNodes;
+@property (nonatomic) NSDictionary *directions;
+@property (nonatomic) BOOL transitioning;
+@end
+
+@implementation GameScene
+
 
 -(instancetype)initWithSize:(CGSize)size {
     if (self = [super initWithSize:size]) {
-        _colors = @[[UIColor redColor], [UIColor blueColor], [UIColor greenColor]];
-        _directions = @{@"up": [SKAction moveBy:CGVectorMake(0, 3) duration:0.3],
-                        @"down": [SKAction moveBy:CGVectorMake(0, -3) duration:0.3],
-                        @"left": [SKAction moveBy:CGVectorMake(-3, 0) duration:0.3],
-                        @"right": [SKAction moveBy:CGVectorMake(3, 0) duration:0.3]};
-        _lives = 3;
-        _bodyNodes = [[NSMutableArray alloc]init];
-        _currentDirection = @"up";
-        _currentColor = [self makeRandomColor];
-        _colorpillar = [SKSpriteNode spriteNodeWithColor:_currentColor size:CGSizeMake(20, 20)];
-        _colorpillar.position = CGPointMake(self.size.width/2, self.size.height/2);
-        _colorpillar.zPosition = 100;
-         self.backgroundColor = [SKColor whiteColor];
-        [self addChild:_colorpillar];
         
-        _scoreBoard = [[SKLabelNode alloc]init];
-        _scoreBoard.position = CGPointMake(self.size.width/2, self.size.height - 40);
-        _scoreBoard.fontColor = [UIColor blackColor];
-        _scoreBoard.fontSize = 20;
-        _scoreBoard.zPosition = 100;
-        [self addChild:_scoreBoard];
+        self.backgroundColor = [SKColor whiteColor];
+        self.transitioning = NO;
+        self.colors = @[[UIColor redColor], [UIColor blueColor], [UIColor greenColor]];
+        self.lives = kLives;
+        self.bodyNodes = [[NSMutableArray alloc]init];
+        self.directions = @{@"up": [SKAction moveBy:CGVectorMake(0, 3) duration:0.3],
+                                    @"down": [SKAction moveBy:CGVectorMake(0, -3) duration:0.3],
+                                    @"left": [SKAction moveBy:CGVectorMake(-3, 0) duration:0.3],
+                                    @"right": [SKAction moveBy:CGVectorMake(3, 0) duration:0.3]};
+        
+        self.currentColor = [self makeRandomColor];
+        
+        
+        
+        self.colorpillar = [Colorpillar colorpillarWithSize:kNodeSize
+                                                   Position:self.size
+                                                  Direction:@"up"
+                                                      Color:self.currentColor];
+        [self addChild:self.colorpillar];
+        
+        self.scoreBoard = [[ScoreBoard alloc] initWithPosition:self.size];
+        [self addChild:self.scoreBoard];
         
         [self runAction:[SKAction repeatActionForever:
                          [SKAction sequence:@[[SKAction performSelector:@selector(spawnFood) onTarget:self], [SKAction waitForDuration:1.0]]]] withKey:@"spawnFood"];
@@ -55,37 +64,44 @@ static inline CGFloat RandomRange(CGFloat min, CGFloat max) {
     return self;
 }
 
+-(void)didMoveToView:(SKView *)view {
+    [super didMoveToView:view];
+    [NSThread sleepForTimeInterval:1.0];
+}
+
 -(void)update:(NSTimeInterval)currentTime {
     [self moveColorpillar];
+    [self scoreUpdate];
     [self followColorpillar];
 }
 
 -(void)didEvaluateActions {
     [self checkFoodCollisions];
-    [self scoreUpdate];
+    [self checkIfLost];
+    
 }
 
 
 -(void)moveColorpillar {
-    [_colorpillar runAction:_directions[_currentDirection]];
+    [self.colorpillar runAction:self.directions[self.colorpillar.currentDirection]];
 }
 
 -(void)turnColorpillarToward:(CGPoint)location {
     
-    if ([_currentDirection isEqualToString:@"up"] || [_currentDirection isEqualToString:@"down"]) {
-        if (_colorpillar.position.x > location.x) {
-            _currentDirection = @"left";
+    if ([self.colorpillar.currentDirection isEqualToString:@"up"] || [self.colorpillar.currentDirection isEqualToString:@"down"]) {
+        if (self.colorpillar.position.x > location.x) {
+            self.colorpillar.currentDirection = @"left";
         } else {
-            _currentDirection = @"right";
+            self.colorpillar.currentDirection = @"right";
         }
         return;
     }
     
-    if ([_currentDirection isEqualToString:@"left"] || [_currentDirection isEqualToString:@"right"]) {
-        if (_colorpillar.position.y > location.y) {
-            _currentDirection = @"down";
+    if ([self.colorpillar.currentDirection isEqualToString:@"left"] || [self.colorpillar.currentDirection isEqualToString:@"right"]) {
+        if (self.colorpillar.position.y > location.y) {
+            self.colorpillar.currentDirection = @"down";
         } else {
-            _currentDirection = @"up";
+            self.colorpillar.currentDirection = @"up";
         }
         return;
     }
@@ -98,94 +114,87 @@ static inline CGFloat RandomRange(CGFloat min, CGFloat max) {
 }
 
 -(void)spawnFood {
-    SKSpriteNode *food = [SKSpriteNode spriteNodeWithColor:[self makeRandomColor] size:CGSizeMake(20, 20)];
-    food.position = CGPointMake(RandomRange(0, self.size.width),RandomRange(0, self.size.height));
+    FoodNode *food = [FoodNode foodWithSize:kNodeSize Postion:self.size Color:[self makeRandomColor]];
+    
     CGRect largerFrame = CGRectInset(food.frame, -40, -40);
-    if (CGRectIntersectsRect(_colorpillar.frame, largerFrame)) {
+    if (CGRectIntersectsRect(self.colorpillar.frame, largerFrame)) {
         return;
     }
-    food.name = @"food";
-    food.xScale = 0;
-    food.yScale = 0;
+    
     [self addChild:food];
-    SKAction *appear = [SKAction scaleTo:1.0 duration:0.5];
-    SKAction *disappear = [SKAction scaleTo:0.0 duration:0.5];
-    SKAction *wait = [SKAction waitForDuration:7];
-    SKAction *removeFromParent = [SKAction removeFromParent];
-    [food runAction:[SKAction sequence:@[appear, wait, disappear,removeFromParent]]];
+    [food foodAnimation];
 }
 
 -(UIColor *)makeRandomColor {
-    NSUInteger randomIndex = arc4random() % [_colors count];
-    return _colors[randomIndex];
+    NSUInteger randomIndex = arc4random() % [self.colors count];
+    return self.colors[randomIndex];
 }
 
 -(void)setGameColor {
-    _currentColor = [self makeRandomColor];
-    _colorpillar.color = _currentColor;
+    self.currentColor = [self makeRandomColor];
+    self.colorpillar.fillColor = self.currentColor;
 }
 
 -(void)checkFoodCollisions {
     [self enumerateChildNodesWithName:@"food" usingBlock:^(SKNode *node, BOOL *stop){
-        SKSpriteNode *food = (SKSpriteNode *)node;
-        if (CGRectIntersectsRect(food.frame, _colorpillar.frame) && ([_currentColor isEqual:food.color])) {
+        FoodNode *food = (FoodNode *)node;
+        if (CGRectIntersectsRect(food.frame, self.colorpillar.frame) && ([self.currentColor isEqual:food.fillColor])) {
             [food removeFromParent];
-            SKSpriteNode *body = [SKSpriteNode spriteNodeWithColor:_currentColor size:CGSizeMake(20,20)];
-            body.zPosition = 100;
+            BodyNode *body = [BodyNode bodyWithSize:10 Color:self.currentColor];
             [self setGameColor];
             
             CGPoint lastPoint;
-            if (_bodyNodes.count == 0) {
-                lastPoint = _colorpillar.position;
+            if (self.bodyNodes.count == 0) {
+                lastPoint = self.colorpillar.position;
             } else {
-                lastPoint = [[_bodyNodes lastObject] position];
+                lastPoint = [[self.bodyNodes lastObject] position];
             }
             
-            if ([_currentDirection isEqualToString:@"up"]) {
-                lastPoint.y -= _colorpillar.size.height;
+            if ([self.colorpillar.currentDirection isEqualToString:@"up"]) {
+                lastPoint.y -= kNodeSize;
                 body.position = lastPoint;
             }
             
-            if ([_currentDirection isEqualToString:@"down"]) {
-                lastPoint.y += _colorpillar.size.height;
+            if ([self.colorpillar.currentDirection isEqualToString:@"down"]) {
+                lastPoint.y += kNodeSize;
                 body.position = lastPoint;
             }
             
-            if ([_currentDirection isEqualToString:@"left"]) {
-                lastPoint.x -= _colorpillar.size.height;
+            if ([self.colorpillar.currentDirection isEqualToString:@"left"]) {
+                lastPoint.x -= kNodeSize;
                 body.position = lastPoint;
             }
             
-            if ([_currentDirection isEqualToString:@"right"]) {
-                lastPoint.x += _colorpillar.size.height;
+            if ([self.colorpillar.currentDirection isEqualToString:@"right"]) {
+                lastPoint.x += kNodeSize;
                 body.position = lastPoint;
             }
             
-            [_bodyNodes addObject:body];
+            [self.bodyNodes addObject:body];
             [self addChild:body];
-        } else if (CGRectIntersectsRect(food.frame, _colorpillar.frame) && (![_currentColor isEqual:food.color])){
+        } else if (CGRectIntersectsRect(food.frame, self.colorpillar.frame) && (![self.currentColor isEqual:food.fillColor])){
             [food removeFromParent];
-            _lives--;
+            self.lives--;
             [self setGameColor];
         }
     }];
 }
 
 -(void)followColorpillar {
-    for (NSUInteger i = 0; i < _bodyNodes.count; i++) {
+    for (NSUInteger i = 0; i < self.bodyNodes.count; i++) {
         SKAction *action;
         if (i == 0) {
-            action = [SKAction moveTo:_colorpillar.position duration:0.1];
+            action = [SKAction moveTo:self.colorpillar.position duration:0.1];
         } else {
-            action = [SKAction moveTo:[_bodyNodes[i - 1] position] duration:0.1];
+            action = [SKAction moveTo:[self.bodyNodes[i - 1] position] duration:0.1];
         }
-        [_bodyNodes[i] runAction:action];
+        [self.bodyNodes[i] runAction:action];
     }
 }
 
 -(BOOL)checkBodyCollisions {
-    for (NSUInteger i = 2; i < _bodyNodes.count; i++) {
-        if (CGRectIntersectsRect([_bodyNodes[i] frame], _colorpillar.frame) && (i != _bodyNodes.count - 1)) {
+    for (NSUInteger i = 3; i < self.bodyNodes.count; i++) {
+        if (CGRectIntersectsRect([self.bodyNodes[i] frame], self.colorpillar.frame) && (i != self.bodyNodes.count - 1)) {
             return YES;
         }
     }
@@ -196,46 +205,33 @@ static inline CGFloat RandomRange(CGFloat min, CGFloat max) {
     CGPoint bottomLeft = CGPointZero;
     CGPoint topRight = CGPointMake(self.size.width,self.size.height);
     
-    if (_colorpillar.position.x <= bottomLeft.x || _colorpillar.position.x >= topRight.x || _colorpillar.position.y <= bottomLeft.y || _colorpillar.position.y >= topRight.y) {
+    if (self.colorpillar.position.x <= bottomLeft.x + 9 || self.colorpillar.position.x >= topRight.x - 9 || self.colorpillar.position.y <= bottomLeft.y + 9 || self.colorpillar.position.y >= topRight.y - 9) {
         return YES;
     }
     return NO;
 }
 
 -(void)checkIfLost {
-    if (_lives == 0 || [self boundsCheck] || [self checkBodyCollisions]) {
-        [self removeAllChildren];
-        [self removeActionForKey:@"spawnFood"];
-        self.backgroundColor = [UIColor redColor];
-        SKLabelNode *label = [SKLabelNode labelNodeWithText:@"Game Over"];
-        NSString *scoreString = [NSString stringWithFormat:@"Your score was %lu",(unsigned long)_bodyNodes.count];
-        SKLabelNode *score = [SKLabelNode labelNodeWithText:scoreString];
-        label.fontColor = [UIColor whiteColor];
-        label.fontSize = 50;
-        label.position = CGPointMake(self.size.width/2, self.size.height/2);
-        score.fontColor = [UIColor whiteColor];
-        score.fontSize = 30;
-        score.position = CGPointMake(self.size.width/2, self.size.height/2 - 40);
-        [self addChild:label];
-        [self addChild:score];
-        
-        SKAction *wait = [SKAction waitForDuration:3.0];
-        SKAction *block = [SKAction runBlock:^{
-            GameScene * myScene =
-            [[GameScene alloc] initWithSize:self.size];
+    if (self.lives == 0 || [self boundsCheck] || [self checkBodyCollisions]) {
+        if (!self.transitioning) {
+            self.transitioning = YES;
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:@(self.bodyNodes.count) forKey:@"score"];
+            [defaults synchronize];
             
-            SKTransition *reveal =
-            [SKTransition flipHorizontalWithDuration:0.5];
+            [self removeAllActions];
+            [self removeAllChildren];
             
-            [self.view presentScene:myScene transition: reveal];
-        }];
-        [self runAction:[SKAction sequence:@[wait, block]]];
+            GameOverScene *gameOverScene = [GameOverScene sceneWithSize:self.frame.size];
+            [self.view presentScene:gameOverScene transition:nil];
+  
+        }
     }
 }
 
 -(void)scoreUpdate {
-    NSString *livesString = [NSString stringWithFormat:@"Score: %lu Lives: %lu", (unsigned long)_bodyNodes.count, (unsigned long)_lives];
-    _scoreBoard.text = livesString;
+    NSString *livesString = [NSString stringWithFormat:@"Score: %lu Lives: %lu", (unsigned long)self.bodyNodes.count, (unsigned long)self.lives];
+    self.scoreBoard.text = livesString;
 }
 
 
