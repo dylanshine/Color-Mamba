@@ -38,12 +38,12 @@
         self.scoreLabel = [SKLabelNode labelNodeWithText:scoreString];
         self.scoreLabel.fontColor = [UIColor whiteColor];
         self.scoreLabel.fontSize = 30;
-        self.scoreLabel.position = CGPointMake(self.size.width/2, self.size.height/2 + 40);
+        self.scoreLabel.position = CGPointMake(self.size.width/2, self.size.height/2 + 60);
         
         
-        self.restartLabel = [SKLabelNode labelNodeWithText:@"Touch To Play Again!"];
+        self.restartLabel = [SKLabelNode labelNodeWithText:@"Touch Anywhere To Restart!"];
         self.restartLabel.fontColor = [UIColor whiteColor];
-        self.restartLabel.fontSize = 30;
+        self.restartLabel.fontSize = 25;
         self.restartLabel.position = CGPointMake(self.size.width/2, self.size.height/2 - 20);
         
         self.gameCenterButton = [SKSpriteNode spriteNodeWithImageNamed:@"GCIcon96x96.png"];
@@ -93,19 +93,23 @@
 }
 
 -(void)reportScore{
-    NSString *leaderBoard = ((AppDelegate *)[UIApplication sharedApplication].delegate).leaderboardIdentifier;
-    GKScore *score = [[GKScore alloc] initWithLeaderboardIdentifier:leaderBoard];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
-    NSNumber *playerScore = [defaults objectForKey:@"score"];
+    if (((AppDelegate *)[UIApplication sharedApplication].delegate).gameCenterEnabled) {
+        NSString *leaderBoard = ((AppDelegate *)[UIApplication sharedApplication].delegate).leaderboardIdentifier;
+        GKScore *score = [[GKScore alloc] initWithLeaderboardIdentifier:leaderBoard];
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        
+        NSNumber *playerScore = [defaults objectForKey:@"score"];
+        
+        score.value = [playerScore integerValue];
+        
+        [GKScore reportScores:@[score] withCompletionHandler:^(NSError *error) {
+            if (error != nil) {
+                NSLog(@"%@", [error localizedDescription]);
+            }
+        }];
+    }
     
-    score.value = [playerScore integerValue];
-    
-    [GKScore reportScores:@[score] withCompletionHandler:^(NSError *error) {
-        if (error != nil) {
-            NSLog(@"%@", [error localizedDescription]);
-        }
-    }];
 }
 
 -(void)showLeaderboardAndAchievements:(BOOL)shouldShowLeaderboard{

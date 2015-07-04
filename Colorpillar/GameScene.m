@@ -64,11 +64,6 @@ static const NSUInteger kLives = 3;
     return self;
 }
 
--(void)didMoveToView:(SKView *)view {
-    [super didMoveToView:view];
-    [NSThread sleepForTimeInterval:1.0];
-}
-
 -(void)update:(NSTimeInterval)currentTime {
     [self moveMamba];
     [self scoreUpdate];
