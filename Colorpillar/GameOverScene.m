@@ -63,6 +63,17 @@
     return self;
 }
 
+-(void)didMoveToView:(SKView *)view {
+    if (!self.addShown) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self reportScore];
+        });
+        self.addShown = YES;
+        UIViewController *vc = self.view.window.rootViewController;
+        [vc presentViewController:[[AdViewController alloc] init] animated:YES completion:nil];
+    }
+}
+
 
 
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -73,17 +84,6 @@
     if ([node.name isEqualToString:@"GameCenterButton"]) {
         [self showLeaderboardAndAchievements:YES];
         return;
-    }
-    
-    if (!self.addShown) {
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self reportScore];
-        });
-        
-        self.addShown = YES;
-        UIViewController *vc = self.view.window.rootViewController;
-        [vc presentViewController:[[AdViewController alloc] init] animated:YES completion:nil];
     } else {
         GameScene *gameScene = [GameScene sceneWithSize:self.frame.size];
         SKTransition *transition = [SKTransition fadeWithDuration:0.5];
