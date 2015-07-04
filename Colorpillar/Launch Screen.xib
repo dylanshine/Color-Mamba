@@ -11,7 +11,7 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon2" translatesAutoresizingMaskIntoConstraints="NO" id="iXT-bO-G2r">
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mamba" translatesAutoresizingMaskIntoConstraints="NO" id="iXT-bO-G2r">
                     <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="iXT-bO-G2r" secondAttribute="height" multiplier="1:1" id="RAF-hN-jKm"/>
@@ -31,6 +31,6 @@
         </view>
     </objects>
     <resources>
-        <image name="icon2" width="512" height="512"/>
+        <image name="mamba" width="512" height="512"/>
     </resources>
 </document>

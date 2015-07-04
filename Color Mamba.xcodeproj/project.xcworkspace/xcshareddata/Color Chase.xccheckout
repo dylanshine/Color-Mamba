@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>361A24F0-C4C4-4244-BA11-D2E923C0D321</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Color Chase</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>7D765733D5D1685CB8CF9D779F32958287D6D75F</key>
+		<string>https://github.com/dylanshine/Colorpillar.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Color Chase.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>7D765733D5D1685CB8CF9D779F32958287D6D75F</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/dylanshine/Colorpillar.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>7D765733D5D1685CB8CF9D779F32958287D6D75F</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>7D765733D5D1685CB8CF9D779F32958287D6D75F</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Colorpillar</string>
+		</dict>
+	</array>
+</dict>
+</plist>

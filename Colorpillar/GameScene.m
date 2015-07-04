@@ -7,7 +7,7 @@
 //
 
 #import "GameScene.h"
-#import "Colorpillar.h"
+#import "ColorMamba.h"
 #import "FoodNode.h"
 #import "BodyNode.h"
 #import "ScoreBoard.h"
@@ -18,7 +18,7 @@ static const CGFloat kNodeSize = 10.0;
 static const NSUInteger kLives = 3;
 
 @interface GameScene()
-@property (nonatomic) Colorpillar *colorpillar;
+@property (nonatomic) ColorMamba *mamba;
 @property (nonatomic) NSUInteger lives;
 @property (nonatomic) ScoreBoard *scoreBoard;
 @property (nonatomic) UIColor *currentColor;
@@ -48,11 +48,11 @@ static const NSUInteger kLives = 3;
         
         
         
-        self.colorpillar = [Colorpillar colorpillarWithSize:kNodeSize
+        self.mamba = [ColorMamba colorpillarWithSize:kNodeSize
                                                    Position:self.size
                                                   Direction:@"up"
                                                       Color:self.currentColor];
-        [self addChild:self.colorpillar];
+        [self addChild:self.mamba];
         
         self.scoreBoard = [[ScoreBoard alloc] initWithPosition:self.size];
         [self addChild:self.scoreBoard];
@@ -70,9 +70,9 @@ static const NSUInteger kLives = 3;
 }
 
 -(void)update:(NSTimeInterval)currentTime {
-    [self moveColorpillar];
+    [self moveMamba];
     [self scoreUpdate];
-    [self followColorpillar];
+    [self followColorChaser];
 }
 
 -(void)didEvaluateActions {
@@ -82,26 +82,26 @@ static const NSUInteger kLives = 3;
 }
 
 
--(void)moveColorpillar {
-    [self.colorpillar runAction:self.directions[self.colorpillar.currentDirection]];
+-(void)moveMamba {
+    [self.mamba runAction:self.directions[self.mamba.currentDirection]];
 }
 
--(void)turnColorpillarToward:(CGPoint)location {
+-(void)turnMambaToward:(CGPoint)location {
     
-    if ([self.colorpillar.currentDirection isEqualToString:@"up"] || [self.colorpillar.currentDirection isEqualToString:@"down"]) {
-        if (self.colorpillar.position.x > location.x) {
-            self.colorpillar.currentDirection = @"left";
+    if ([self.mamba.currentDirection isEqualToString:@"up"] || [self.mamba.currentDirection isEqualToString:@"down"]) {
+        if (self.mamba.position.x > location.x) {
+            self.mamba.currentDirection = @"left";
         } else {
-            self.colorpillar.currentDirection = @"right";
+            self.mamba.currentDirection = @"right";
         }
         return;
     }
     
-    if ([self.colorpillar.currentDirection isEqualToString:@"left"] || [self.colorpillar.currentDirection isEqualToString:@"right"]) {
-        if (self.colorpillar.position.y > location.y) {
-            self.colorpillar.currentDirection = @"down";
+    if ([self.mamba.currentDirection isEqualToString:@"left"] || [self.mamba.currentDirection isEqualToString:@"right"]) {
+        if (self.mamba.position.y > location.y) {
+            self.mamba.currentDirection = @"down";
         } else {
-            self.colorpillar.currentDirection = @"up";
+            self.mamba.currentDirection = @"up";
         }
         return;
     }
@@ -110,14 +110,14 @@ static const NSUInteger kLives = 3;
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
     CGPoint touchLocation = [touch locationInNode:self];
-    [self turnColorpillarToward:touchLocation];
+    [self turnMambaToward:touchLocation];
 }
 
 -(void)spawnFood {
     FoodNode *food = [FoodNode foodWithSize:kNodeSize Postion:self.size Color:[self makeRandomColor]];
     
     CGRect largerFrame = CGRectInset(food.frame, -40, -40);
-    if (CGRectIntersectsRect(self.colorpillar.frame, largerFrame)) {
+    if (CGRectIntersectsRect(self.mamba.frame, largerFrame)) {
         return;
     }
     
@@ -132,47 +132,47 @@ static const NSUInteger kLives = 3;
 
 -(void)setGameColor {
     self.currentColor = [self makeRandomColor];
-    self.colorpillar.fillColor = self.currentColor;
+    self.mamba.fillColor = self.currentColor;
 }
 
 -(void)checkFoodCollisions {
     [self enumerateChildNodesWithName:@"food" usingBlock:^(SKNode *node, BOOL *stop){
         FoodNode *food = (FoodNode *)node;
-        if (CGRectIntersectsRect(food.frame, self.colorpillar.frame) && ([self.currentColor isEqual:food.fillColor])) {
+        if (CGRectIntersectsRect(food.frame, self.mamba.frame) && ([self.currentColor isEqual:food.fillColor])) {
             [food removeFromParent];
             BodyNode *body = [BodyNode bodyWithSize:10 Color:self.currentColor];
             [self setGameColor];
             
             CGPoint lastPoint;
             if (self.bodyNodes.count == 0) {
-                lastPoint = self.colorpillar.position;
+                lastPoint = self.mamba.position;
             } else {
                 lastPoint = [[self.bodyNodes lastObject] position];
             }
             
-            if ([self.colorpillar.currentDirection isEqualToString:@"up"]) {
+            if ([self.mamba.currentDirection isEqualToString:@"up"]) {
                 lastPoint.y -= kNodeSize;
                 body.position = lastPoint;
             }
             
-            if ([self.colorpillar.currentDirection isEqualToString:@"down"]) {
+            if ([self.mamba.currentDirection isEqualToString:@"down"]) {
                 lastPoint.y += kNodeSize;
                 body.position = lastPoint;
             }
             
-            if ([self.colorpillar.currentDirection isEqualToString:@"left"]) {
+            if ([self.mamba.currentDirection isEqualToString:@"left"]) {
                 lastPoint.x -= kNodeSize;
                 body.position = lastPoint;
             }
             
-            if ([self.colorpillar.currentDirection isEqualToString:@"right"]) {
+            if ([self.mamba.currentDirection isEqualToString:@"right"]) {
                 lastPoint.x += kNodeSize;
                 body.position = lastPoint;
             }
             
             [self.bodyNodes addObject:body];
             [self addChild:body];
-        } else if (CGRectIntersectsRect(food.frame, self.colorpillar.frame) && (![self.currentColor isEqual:food.fillColor])){
+        } else if (CGRectIntersectsRect(food.frame, self.mamba.frame) && (![self.currentColor isEqual:food.fillColor])){
             [food removeFromParent];
             self.lives--;
             [self setGameColor];
@@ -180,11 +180,11 @@ static const NSUInteger kLives = 3;
     }];
 }
 
--(void)followColorpillar {
+-(void)followColorChaser {
     for (NSUInteger i = 0; i < self.bodyNodes.count; i++) {
         SKAction *action;
         if (i == 0) {
-            action = [SKAction moveTo:self.colorpillar.position duration:0.1];
+            action = [SKAction moveTo:self.mamba.position duration:0.1];
         } else {
             action = [SKAction moveTo:[self.bodyNodes[i - 1] position] duration:0.1];
         }
@@ -194,7 +194,7 @@ static const NSUInteger kLives = 3;
 
 -(BOOL)checkBodyCollisions {
     for (NSUInteger i = 3; i < self.bodyNodes.count; i++) {
-        if (CGRectIntersectsRect([self.bodyNodes[i] frame], self.colorpillar.frame) && (i != self.bodyNodes.count - 1)) {
+        if (CGRectIntersectsRect([self.bodyNodes[i] frame], self.mamba.frame) && (i != self.bodyNodes.count - 1)) {
             return YES;
         }
     }
@@ -205,7 +205,7 @@ static const NSUInteger kLives = 3;
     CGPoint bottomLeft = CGPointZero;
     CGPoint topRight = CGPointMake(self.size.width,self.size.height);
     
-    if (self.colorpillar.position.x <= bottomLeft.x + 9 || self.colorpillar.position.x >= topRight.x - 9 || self.colorpillar.position.y <= bottomLeft.y + 9 || self.colorpillar.position.y >= topRight.y - 9) {
+    if (self.mamba.position.x <= bottomLeft.x + 9 || self.mamba.position.x >= topRight.x - 9 || self.mamba.position.y <= bottomLeft.y + 9 || self.mamba.position.y >= topRight.y - 9) {
         return YES;
     }
     return NO;

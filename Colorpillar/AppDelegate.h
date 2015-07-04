@@ -13,7 +13,8 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
+@property(nonatomic, strong) NSString *leaderboardIdentifier;
+@property(nonatomic, assign) BOOL gameCenterEnabled;
 
 @end
 
